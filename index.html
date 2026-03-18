@@ -1,2 +1,102 @@
-<h1>🛡️ TradeShield</h1>
-<p>Trade Smart. Control Risk.</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Risk Management Tool</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #22c55e;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #16a34a;
+        }
+
+        .result {
+            margin-top: 15px;
+            background: #020617;
+            padding: 10px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>📊 Risk Calculator</h2>
+
+    <input type="number" id="capital" placeholder="Capital (₹)">
+    <input type="number" id="risk" placeholder="Risk %">
+    <input type="number" id="price" placeholder="Stock Price">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="output"></div>
+</div>
+
+<script>
+function calculate() {
+    let capital = +document.getElementById("capital").value;
+    let risk = +document.getElementById("risk").value;
+    let price = +document.getElementById("price").value;
+
+    if (!capital || !risk || !price) {
+        document.getElementById("output").innerHTML = "⚠️ Enter all values";
+        return;
+    }
+
+    let riskAmount = (capital * risk) / 100;
+
+    let sl = price * 0.98; // 2% SL
+    let riskPerShare = price - sl;
+
+    let quantity = Math.floor(riskAmount / riskPerShare);
+    let investment = quantity * price;
+
+    document.getElementById("output").innerHTML =
+        "💰 Risk Amount: ₹" + riskAmount.toFixed(2) + "<br>" +
+        "📉 Stop Loss: ₹" + sl.toFixed(2) + "<br>" +
+        "📦 Quantity: " + quantity + "<br>" +
+        "💸 Investment: ₹" + investment.toFixed(2);
+}
+</script>
+
+</body>
+</html>
